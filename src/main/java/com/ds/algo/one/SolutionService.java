@@ -1,138 +1,131 @@
-package com.ds.algo.one;
+package com.ds.algo.two;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SolutionService {
 
 	public static void main(String[] args) {
 
-		SolutionService service = new SolutionService();
-		boolean result = service.isCompleteTree(service.getInput());
-		System.out.println("Result: " + result);
-
+		TrieTree tree = new TrieTree();
+		tree.addWord("Null");
+		tree.addWord("Nully");
+		tree.addWord("Kuch");
+		tree.addWord("Kuich");
+		System.out.println("Is word Exists: "+tree.ifWordExists("Null"));
+		System.out.println("Is word Exists: "+tree.ifWordExists("Nully"));
+		System.out.println("Is word Exists: "+tree.ifWordExists("Kuch"));
+		System.out.println("Is word Exists: "+tree.ifWordExists("Kuich"));
+		System.out.println("Is word Exists: "+tree.ifWordExists("Nulli"));
+		System.out.println("Is word Exists: "+tree.ifWordExists("Nuill"));
 	}
 
-	List<TreeNode> first = new ArrayList<TreeNode>();
-	List<TreeNode> second = new ArrayList<TreeNode>();
+	public static class TrieTree {
 
-	public boolean isCompleteTree(TreeNode root) {
+		private Node head = null;
 
-		if (root == null) {
-			return true;
-		}
+		public void addWord(String word) {
 
-		first.add(root.left);
-		first.add(root.right);
+			Node tempNode = head;
 
-		return check(first, second, true);
+			char[] chars = word.toCharArray();
 
-	}
+			int length = chars.length;
 
-	public boolean check(List<TreeNode> first, List<TreeNode> second, boolean flagFirst) {
-
-		boolean flagNullAtLevel = false;
-		boolean flagAnyNotNullAtLevel = false;
-
-		boolean breakFlag = false;
-
-		while (!breakFlag) {
-
-			if (first.size() == second.size() && first.size() == 0) {
-				breakFlag = true;
-			} else if (flagFirst) {
-				for (int i = 0; i < first.size(); i++) {
-
-					if (flagNullAtLevel && first.get(i) != null) {
-						return false;
+			for (int i = 0; i < length; i++) {
+				if (tempNode == null) {
+					tempNode = new Node();
+					Node nextNode = new Node();
+					nextNode.setNodeVal(new HashMap<Character, Node>());
+					if (i == length - 1) {
+						nextNode.setEndOfWord(true);
 					}
-
-					if (first.get(i) == null) {
-						flagNullAtLevel = true;
+					Map<Character, Node> nodeVal = new HashMap<>();
+					nodeVal.put(chars[i], nextNode);
+					tempNode.setNodeVal(nodeVal);
+					head = tempNode;
+					tempNode = nextNode;
+				} else {
+					if (tempNode.nodeVal.containsKey(chars[i])) {
+						tempNode = tempNode.nodeVal.get(chars[i]);
 					} else {
-						if (first.get(i).left != null || first.get(i).right != null) {
-							flagAnyNotNullAtLevel = true;
+						Node nextNode = new Node();
+						nextNode.setNodeVal(new HashMap<Character, Node>());
+						if (i == length - 1) {
+							nextNode.setEndOfWord(true);
 						}
-						second.add(first.get(i).left);
-						second.add(first.get(i).right);
+						tempNode.nodeVal.put(chars[i], nextNode);
+						tempNode = nextNode;
 					}
-
 				}
-				if (flagNullAtLevel && flagAnyNotNullAtLevel) {
-					return false;
-				}
-				flagFirst = false;
-				flagNullAtLevel = false;
-				flagAnyNotNullAtLevel = false;
-				first.clear();
-
-			} else {
-				for (int i = 0; i < second.size(); i++) {
-
-					if (flagNullAtLevel && second.get(i) != null) {
-						return false;
-					}
-
-					if (second.get(i) == null) {
-						flagNullAtLevel = true;
-					} else {
-						if (second.get(i).left != null || second.get(i).right != null) {
-							flagAnyNotNullAtLevel = true;
-						}
-						first.add(second.get(i).left);
-						first.add(second.get(i).right);
-					}
-
-				}
-				if (flagNullAtLevel && flagAnyNotNullAtLevel) {
-					return false;
-				}
-				flagFirst = true;
-				flagNullAtLevel = false;
-				flagAnyNotNullAtLevel = false;
-				second.clear();
 			}
+
 		}
-		return true;
+
+		public boolean ifWordExists(String word) {
+			
+			if(head == null && word == null) {
+				return true;
+			}
+			
+			if(head == null && word.length()==0) {
+				return true;
+			}
+			
+			Node tempNode = head;
+
+			char[] chars = word.toCharArray();
+
+			int length = chars.length;
+			
+			boolean flag = true;
+			
+			for(int i = 0; i < length; i++) {
+				if (tempNode.nodeVal.containsKey(chars[i])) {
+					tempNode = tempNode.nodeVal.get(chars[i]);
+					flag = tempNode.isEndOfWord();
+				} else {
+					flag = false;
+					break;
+				}
+			}
+			
+			return flag;
+		}
+
+		public boolean deletedWord(String word) {
+			return false;
+		}
+
+		public List<String> wordSuggestion(String str) {
+			return null;
+		}
+
 	}
 
-	static class TreeNode {
-		int val;
-		TreeNode left;
-		TreeNode right;
+	public static class Node {
 
-		TreeNode() {
+		private Map<Character, Node> nodeVal;
+
+		private boolean endOfWord;
+
+		public Map<Character, Node> getNodeVal() {
+			return nodeVal;
 		}
 
-		TreeNode(int val) {
-			this.val = val;
+		public void setNodeVal(Map<Character, Node> nodeVal) {
+			this.nodeVal = nodeVal;
 		}
 
-		TreeNode(int val, TreeNode left, TreeNode right) {
-			this.val = val;
-			this.left = left;
-			this.right = right;
+		public boolean isEndOfWord() {
+			return endOfWord;
 		}
-	}
 
-	public TreeNode getInput() {
-		TreeNode node1 = new TreeNode(1);
+		public void setEndOfWord(boolean endOfWord) {
+			this.endOfWord = endOfWord;
+		}
 
-		TreeNode node2 = new TreeNode(2);
-		TreeNode node3 = new TreeNode(3);
-		TreeNode node4 = new TreeNode(4);
-		TreeNode node5 = new TreeNode(5);
-		TreeNode node6 = new TreeNode(6);
-
-		node1.left = node2;
-		node1.right = node3;
-
-		node2.left = node4;
-		node2.right = node5;
-
-		node3.left = node6;
-
-		return node1;
 	}
 
 }
