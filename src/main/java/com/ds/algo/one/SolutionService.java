@@ -1,4 +1,4 @@
-package com.ds.algo.two;
+package com.ds.algo.one;
 
 import java.util.HashMap;
 import java.util.List;
