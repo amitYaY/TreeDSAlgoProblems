@@ -3,4 +3,5 @@
 3. LCA of a Node
 4. Train Timings and Platform Problem / Meetings and Meeting Rooms
 5. Diameter of a Tree
-6. BinaryTree Bottom View
+6. Check Tree is Symmetric or Not
+10. BinaryTree Bottom View
