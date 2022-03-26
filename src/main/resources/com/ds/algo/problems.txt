@@ -2,4 +2,5 @@
 2. Tries tree Implementation
 3. LCA of a Node
 4. Train Timings and Platform Problem / Meetings and Meeting Rooms
-5. BinaryTree Bottom View
+5. Diameter of a Tree
+6. BinaryTree Bottom View
