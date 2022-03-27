@@ -4,4 +4,5 @@
 4. Train Timings and Platform Problem / Meetings and Meeting Rooms
 5. Diameter of a Tree
 6. Check Tree is Symmetric or Not
+7. Check Two Trees are Mirror of each other
 10. BinaryTree Bottom View
