@@ -7,4 +7,5 @@
 7. Check Two Trees are Mirror of each other
 8. Check Two Trees are symmetrical
 9. Convert a Binary Tree to it's Mirror
-10. BinaryTree Bottom View
+10. Create Mirror of a Binary Tree
+11. BinaryTree Bottom View
